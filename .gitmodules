@@ -1,0 +1,3 @@
+[submodule "src/proto"]
+	path = src/proto
+	url = git@github.com:Fabmeister/formally-verified-evoting_protobufs_group_eins.git
