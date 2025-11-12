@@ -1,0 +1,20 @@
+services:
+  # Your existing gRPC service (replace with your actual service)
+  #grpc-service:
+    #build: .  # or image: your-grpc-service-image
+    #ports:
+    #  - "50051:50051"  # Internal gRPC port
+    # Add your service configuration here
+
+  # Envoy proxy for gRPC-Web
+  grpc-web-proxy:
+    image: envoyproxy/envoy:v1.28-latest
+    ports:
+      - "8080:8080"  # gRPC-Web port (browsers connect here)
+      - "9901:9901"  # Envoy admin interface
+    network_mode: "host"
+    volumes:
+      - ./envoy-grpc-web.yaml:/etc/envoy/envoy.yaml
+    #depends_on:
+    #  - grpc-service
+    command: ["/usr/local/bin/envoy", "-c", "/etc/envoy/envoy.yaml", "--log-level", "info"]
