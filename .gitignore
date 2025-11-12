@@ -1,0 +1,15 @@
+
+# Für dafny run approvalVoting (testen während Developement):
+src/logic/dafnyVoting/votingSystems-dafny/approvalVoting*
+src/logic/dafnyVoting/votingSystems-dafny/obj
+!src/logic/dafnyVoting/votingSystems-dafny/approvalVoting.dfy
+
+src/logic/dafnyVoting/votingSystems-dafny/instantRunoffVoting*
+!src/logic/dafnyVoting/votingSystems-dafny/instantRunoffVoting.dfy
+src/logic/dafnyVoting/votingSystems-go/*
+
+src/server/config.json
+src/config.json
+.vscode
+
+bin
