@@ -1,11 +1,11 @@
 # Formally-Verified-E-Voting-Backend
 
-Have you ever wanted to vote, but it beeing formally verified? Now you can!
+Have you ever wanted to vote with formal verification? Now you can!
 
-Backend for a formally verified voting system using Dafny.
-This Repository contains a gRPC-Server which was written using Golang.
+Backend for a formally verified voting system using [Dafny](https://dafny.org/).  
+This Repository contains a gRPC-Server which was written using [Golang](https://go.dev/).
 
-The API is defined using protobufs, which can be found here: <https://github.com/Fabmeister/formally-verified-evoting_protobufs_group_eins/>
+The API is defined using protobufs, which can be found here: [Protobuf Repo](https://github.com/Fabmeister/formally-verified-evoting_protobufs_group_eins)
 
 ## Requirements
 Dafny, Go, protoc, mariadb
@@ -13,8 +13,9 @@ Dafny, Go, protoc, mariadb
 ## Setup
 
 ### Protobuf Repo
-
+```bash
 git submodule update --init
+```
 
 ### Database
 
@@ -28,7 +29,7 @@ Create database by sequentialy running all sql commands in DatabaseSchema.sql
 
 ## Host backend
 
-1. In example_external_config/Envoy-gRPC/: sudo docker compose up
+1. In example_external_config/Envoy-gRPC/: `sudo docker compose up`
 2. In bin/: ./evotingServer 
 
    On first startup, a config.json will be created in the current folder, which has to be filled with proper information.
@@ -39,7 +40,7 @@ Create database by sequentialy running all sql commands in DatabaseSchema.sql
 ## About and credits
 
 This is a student project made as part of the computer science major at the University Regensburg.
-During the duration of the project gitlab was used but now ported to github in way that email addresses wouldn't be leaked. Unfortunatly the git history was lost during this process.
+During the duration of the project gitlab was used but it is now ported to github in a way that email addresses wouldn't be leaked. Unfortunately the git history was lost during this process.
 
 It is currently hosted on: <eldarica.org/eins>
 
