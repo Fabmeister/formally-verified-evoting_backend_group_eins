@@ -1,3 +1,16 @@
+// Formally verified E-Voting using Dafny
+// Copyright (C) 2025 Authors Gruppe EinS
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as
+// published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 package api
 
 import (
@@ -62,7 +75,6 @@ func checkHeadersForAuthToken(md metadata.MD) (string, error) {
 	if len(md["authorization"]) == 0 {
 		return "", status.Errorf(codes.Unauthenticated, "Kein Auth Header!")
 	}
-	
 
 	authToken := md["authorization"][0]
 	if authToken == "Bearer null" {
@@ -131,9 +143,9 @@ func IsAuthenticatedFromHeaderMetadata(md metadata.MD) (is_auth bool, err error)
 	return isValid, nil
 }
 
-// Return either: 
-// 		- voteToken from metadata (of form electionid-token)
-// 	or bearerToken
+// Return either:
+//   - voteToken from metadata (of form electionid-token)
+//     or bearerToken
 func GetVoteORBearerTokenStringFromHeaderMetadata(md metadata.MD) (token string, tokentype authservices.TokenTypes, err error) {
 
 	// VoteToken or Bearer Zeile aus metadata parsen

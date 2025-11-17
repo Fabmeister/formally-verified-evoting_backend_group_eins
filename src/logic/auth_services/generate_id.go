@@ -1,3 +1,16 @@
+// Formally verified E-Voting using Dafny
+// Copyright (C) 2025 Authors Gruppe EinS
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as
+// published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 package authservices
 
 import (
@@ -42,22 +55,22 @@ func GenerateRandom128BitToken() Token {
 	return random
 }
 
-func GenerateMultipleDistinct128BitTokens(amountOfTokens int) ([]Token) {
+func GenerateMultipleDistinct128BitTokens(amountOfTokens int) []Token {
 	// generate amountOfTokens many Tokens (16bytes each) with no duplicate Tokens
 	// amountOfTokens must be >0
 
 	tokens := make([]Token, amountOfTokens)
 	tokensMap := make(map[Token]bool, amountOfTokens)
-	i:=0
-	for i<amountOfTokens{
-		tokenToCheckUniqueness := GenerateRandom128BitToken() 
+	i := 0
+	for i < amountOfTokens {
+		tokenToCheckUniqueness := GenerateRandom128BitToken()
 		// Check that this token wasn't already generated
 		_, okay := tokensMap[tokenToCheckUniqueness]
 		if !okay {
 			// Token doesn't yet exist
 			tokensMap[tokenToCheckUniqueness] = true
 			tokens[i] = tokenToCheckUniqueness
-			i = i+1
+			i = i + 1
 		}
 		// Else Try with another Token
 	}
@@ -75,11 +88,11 @@ func GenerateUniqueVoterTokens(wahlId int32, amountOfTokens int) (full_tokens []
 		return nil, nil, err
 	}
 	raw_tokenBytes := GenerateMultipleDistinct128BitTokens(amountOfTokens)
-	
+
 	var fulltoken_prefix = strconv.Itoa(int(wahlId)) + "-"
-	raw_stringtokens = make([]string,amountOfTokens)
-	full_tokens = make([]string,amountOfTokens)
-	for i:=0; i<amountOfTokens; i++{
+	raw_stringtokens = make([]string, amountOfTokens)
+	full_tokens = make([]string, amountOfTokens)
+	for i := 0; i < amountOfTokens; i++ {
 		raw_stringtoken := hex.EncodeToString(raw_tokenBytes[i][:])
 		raw_stringtokens[i] = raw_stringtoken
 		full_tokens[i] = fulltoken_prefix + raw_stringtoken
@@ -117,7 +130,7 @@ type BearerTokenHolder struct {
 }
 
 var (
-	token_list []BearerTokenHolder // nur mit Mutex! 
+	token_list []BearerTokenHolder // nur mit Mutex!
 	mu         sync.Mutex
 )
 
@@ -159,7 +172,7 @@ func InsertBearerToken(token Token, id int) bool {
 	zw_token := BearerTokenHolder{
 		Token:    token,
 		Id:       id,
-		EndValid: time.Now().Add(24 * time.Hour), // Token ist 24 Stunden gültig 
+		EndValid: time.Now().Add(24 * time.Hour), // Token ist 24 Stunden gültig
 	}
 	token_list = append(token_list, zw_token)
 	return true

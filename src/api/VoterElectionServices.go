@@ -1,3 +1,16 @@
+// Formally verified E-Voting using Dafny
+// Copyright (C) 2025 Authors Gruppe EinS
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as
+// published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 package api
 
 import (
@@ -132,9 +145,7 @@ func (s *WahlServices_Server) SendVote(ctx context.Context, in *pb.SendVoteReque
 	return &emptypb.Empty{}, nil
 }
 
-
-
-func (s *WahlServices_Server) GetVotertokenStatus(ctx context.Context, in *emptypb.Empty,) (*pb.GetVotertokenStatusResponse, error) {
+func (s *WahlServices_Server) GetVotertokenStatus(ctx context.Context, in *emptypb.Empty) (*pb.GetVotertokenStatusResponse, error) {
 	// Überprüfen ob Voter wahlberechtigt und einfügen des Votes in die Datenbank
 	md, _ := metadata.FromIncomingContext(ctx)
 
@@ -159,18 +170,14 @@ func (s *WahlServices_Server) GetVotertokenStatus(ctx context.Context, in *empty
 		log.Printf("error in wahltoken: %v", err)
 		return nil, err
 	}
-	
+
 	var wahltoken dto.Wahltoken = dto.Wahltoken{ElectionID: electionid, Token: rawToken}
 	tokenExists, tokenUnused, err := usecases.GetVotertokenStatus_Usecase(wahltoken)
 	if err != nil {
 		log.Printf("error in GetVotertokenStatus_Usecase: %v", err)
 		return nil, err
 	}
-	log.Printf("DEBUG exists %v unused %v",tokenExists, tokenUnused)
-
+	log.Printf("DEBUG exists %v unused %v", tokenExists, tokenUnused)
 
 	return &pb.GetVotertokenStatusResponse{TokenExists: tokenExists, TokenUnused: tokenUnused}, nil
 }
-
-
-

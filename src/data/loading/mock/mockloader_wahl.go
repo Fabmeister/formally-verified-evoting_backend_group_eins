@@ -1,3 +1,16 @@
+// Formally verified E-Voting using Dafny
+// Copyright (C) 2025 Authors Gruppe EinS
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as
+// published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 package mock
 
 import (
@@ -45,8 +58,6 @@ func (loader MockWahlLoader) InsertElection(wahl *dto.Election, candidateNames [
 
 	return nil
 }
-
-
 
 func (loader MockWahlLoader) GetElection(wahlid int) (dto.Election, error) {
 	mu_wahl.Lock()
@@ -164,7 +175,7 @@ func (loader MockWahlLoader) GetVotesType2(wahlid int) ([][]dto.Vote_Type2, erro
 	return votes, nil
 }
 
-func (loader MockWahlLoader) IsElectionActive(wahlid int) (bool, error){
+func (loader MockWahlLoader) IsElectionActive(wahlid int) (bool, error) {
 	mu_wahl.Lock()
 	defer mu_wahl.Unlock()
 
@@ -174,7 +185,7 @@ func (loader MockWahlLoader) IsElectionActive(wahlid int) (bool, error){
 		return false, err
 	}
 
-	if !(election.Is_active){
+	if !(election.Is_active) {
 		return false, nil
 	} else {
 		if time.Now().After(election.End_time) {
@@ -191,7 +202,7 @@ func (loader MockWahlLoader) GetElectionsOfWahlleiter(wahlleiterid int) ([]dto.E
 	defer mu_wahl.Unlock()
 
 	var listAllElections []dto.Election = slices.Collect(maps.Values(wahlen))
-	electionsOfWahlleiter := make([]dto.Election,0)
+	electionsOfWahlleiter := make([]dto.Election, 0)
 
 	for _, election := range listAllElections {
 		if election.Wahlleiter_id == wahlleiterid {
@@ -199,5 +210,5 @@ func (loader MockWahlLoader) GetElectionsOfWahlleiter(wahlleiterid int) ([]dto.E
 		}
 	}
 	return electionsOfWahlleiter, nil
-	
+
 }

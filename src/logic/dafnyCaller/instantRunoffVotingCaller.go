@@ -1,3 +1,16 @@
+// Formally verified E-Voting using Dafny
+// Copyright (C) 2025 Authors Gruppe EinS
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as
+// published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 package votingSystemsCaller
 
 import (
@@ -16,7 +29,7 @@ func fulfillsPreconditions_InstantRunoffVoting(candidates []int, votes [][]int) 
 	if len(votes) > math.MaxInt32 {
 		return errors.New("unsupported: too many votes")
 	}
-	if len(candidates)>0 && (slices.Max(candidates) > math.MaxInt32) {
+	if len(candidates) > 0 && (slices.Max(candidates) > math.MaxInt32) {
 		return errors.New("unsupported: too high candidateid")
 	}
 

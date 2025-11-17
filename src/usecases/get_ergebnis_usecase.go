@@ -1,3 +1,16 @@
+// Formally verified E-Voting using Dafny
+// Copyright (C) 2025 Authors Gruppe EinS
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as
+// published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 package usecases
 
 import (
@@ -22,8 +35,6 @@ func GetResultUsecase(wahlid int, token string, token_type authservices.TokenTyp
 		log.Printf("GetWahl failed: %v", err)
 		return nil, nil, nil, err
 	}
-
-
 
 	switch token_type {
 	case authservices.TOKEN_WAHLTOKEN:
@@ -61,7 +72,6 @@ func GetResultUsecase(wahlid int, token string, token_type authservices.TokenTyp
 		return nil, nil, nil, dto.WahltokenNotValidError{Message: "Unknown token type"}
 	}
 
-
 	// check election is still ongoing
 	isActive, err := loaderWahl.IsElectionActive(wahlid)
 	if err != nil {
@@ -74,7 +84,7 @@ func GetResultUsecase(wahlid int, token string, token_type authservices.TokenTyp
 	}
 
 	candidates_id, cand_map, err := loaderWahl.GetCandidates(wahlid)
-	if err != nil{
+	if err != nil {
 		log.Printf("error in GetResultUsecase calling GetCandidates: %v", err)
 		return nil, nil, nil, err
 	}
@@ -96,7 +106,7 @@ func GetResultUsecase(wahlid int, token string, token_type authservices.TokenTyp
 
 	winners = make([]dto.Candidate, len(winners_ids))
 	for i, id := range winners_ids {
-		winners[i] = cand_map[id] 
+		winners[i] = cand_map[id]
 		// ist garantiert enthalten (oder bei IRV, wenn 0 bedeutet kein Gewinner eh mit Defaultwerten gefüllt)
 	}
 

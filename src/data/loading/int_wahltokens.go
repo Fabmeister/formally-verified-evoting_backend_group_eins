@@ -1,3 +1,16 @@
+// Formally verified E-Voting using Dafny
+// Copyright (C) 2025 Authors Gruppe EinS
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as
+// published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 package loading
 
 import (
@@ -13,11 +26,11 @@ import (
 
 // Allgemein: Loopkup hier nicht über ID, sondern über Wahlid und Token wert (beide im dto.Wahltoken)
 type ILoadWahltokens interface {
-	InsertVotertokens(tokens []dto.Wahltoken) error                 // mit Transaktion
-	InsertSingleVotertoken(token dto.Wahltoken) error               // kann weniger schief gehen
+	InsertVotertokens(tokens []dto.Wahltoken) error                     // mit Transaktion
+	InsertSingleVotertoken(token dto.Wahltoken) error                   // kann weniger schief gehen
 	GetVotertokensByElectionid(electionid int) ([]dto.Wahltoken, error) // aller Token zu einer Wahl
 	CheckVotertokenNotYetVoted(dto.Wahltoken) (bool, error)             // prüfen ob: Token existiert und ob valid (schon gewählt)
-	InvalidateVotertoken(db *gorm.DB, token dto.Wahltoken) error    // valid auf falsch setzen
+	InvalidateVotertoken(db *gorm.DB, token dto.Wahltoken) error        // valid auf falsch setzen
 	CheckVotertokenExists(token dto.Wahltoken) (bool, error)            // prüfen ob Token existiert
 }
 

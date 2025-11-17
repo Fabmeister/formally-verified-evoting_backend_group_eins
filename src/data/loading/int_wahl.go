@@ -1,3 +1,16 @@
+// Formally verified E-Voting using Dafny
+// Copyright (C) 2025 Authors Gruppe EinS
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as
+// published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 package loading
 
 import (
@@ -187,7 +200,7 @@ func (loader WahlLoader) InsertVoteAndInvalidateToken(votes []dto.UnifiedVote, w
 		return err
 	}
 
-	election, err:= loader.GetElection(wahlToken.ElectionID)
+	election, err := loader.GetElection(wahlToken.ElectionID)
 	if err != nil {
 		log.Printf("GetWahl failed: %v", err)
 		transaction.Rollback()
@@ -285,7 +298,6 @@ func (loader WahlLoader) InsertVotesForOpenElection(votes []dto.UnifiedVote, ele
 	return transaction.Commit().Error
 }
 
-
 func (loader WahlLoader) GetElection(wahlid int) (dto.Election, error) {
 	db, err := databaseconn.GetDB()
 	if err != nil {
@@ -352,11 +364,10 @@ func (loader WahlLoader) GetVotesApproval(wahlid int) ([][]dto.Single_vote_appro
 	for rows.Next() {
 		var approv dto.Single_vote_approval
 		err := rows.Scan(&approv.Vote_id, &approv.Candidate_id, &approv.Approved)
-    if err != nil {
-        log.Printf("in (WahlLoader)GetVotesType2 error scanning db row into dto.Vote_Type2: %v", err)
-				return nil, err
-    }
-
+		if err != nil {
+			log.Printf("in (WahlLoader)GetVotesType2 error scanning db row into dto.Vote_Type2: %v", err)
+			return nil, err
+		}
 
 		// Sind nach voteheader sortiert, darum prüfen wann headerid anders ist
 		if cur_header_id != approv.Vote_id {
@@ -391,10 +402,10 @@ func (loader WahlLoader) GetVotesType2(wahlid int) ([][]dto.Vote_Type2, error) {
 	for rows.Next() {
 		var vote dto.Vote_Type2
 		err := rows.Scan(&vote.Vote_id, &vote.Candidate_id, &vote.Info)
-    if err != nil {
-        log.Printf("in (WahlLoader)GetVotesType2 error scanning db row into dto.Vote_Type2: %v", err)
-				return nil, err
-    }
+		if err != nil {
+			log.Printf("in (WahlLoader)GetVotesType2 error scanning db row into dto.Vote_Type2: %v", err)
+			return nil, err
+		}
 
 		// Sind nach voteheader sortiert, darum prüfen wann headerid anders ist
 		if cur_header_id != vote.Vote_id {
@@ -407,8 +418,8 @@ func (loader WahlLoader) GetVotesType2(wahlid int) ([][]dto.Vote_Type2, error) {
 	return votes, nil
 }
 
-func (loader WahlLoader) IsElectionActive(wahlid int) (bool, error){
-	// returns field is_active from database AND updates it from false to true, 
+func (loader WahlLoader) IsElectionActive(wahlid int) (bool, error) {
+	// returns field is_active from database AND updates it from false to true,
 	// if the election endtime is now already in the past
 	db, err := databaseconn.GetDB()
 	if err != nil {
@@ -435,9 +446,8 @@ func (loader WahlLoader) IsElectionActive(wahlid int) (bool, error){
 		return false, err
 	}
 
-
 	// check is_active status
-	if !(election.Is_active){
+	if !(election.Is_active) {
 		return false, nil
 	} else {
 		if time.Now().After(election.End_time) {
@@ -449,7 +459,6 @@ func (loader WahlLoader) IsElectionActive(wahlid int) (bool, error){
 		return election.Is_active, nil
 	}
 }
-
 
 func (loader WahlLoader) GetElectionsOfWahlleiter(wahlleiterid int) ([]dto.Election, error) {
 	// get all Elections the wahleiter with the specified id created
