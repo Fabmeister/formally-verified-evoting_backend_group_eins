@@ -40,7 +40,7 @@ Create database by sequentialy running all sql commands in DatabaseSchema.sql
 ## About and credits
 
 This is a student project made as part of the computer science major at the University Regensburg.
-During the duration of the project gitlab was used but now ported to github in way that email addresses wouldn't be leaked. Unfortunatly the git history was lost during this process.
+During the duration of the project gitlab was used but it is now ported to github in a way that email addresses wouldn't be leaked. Unfortunately the git history was lost during this process.
 
 It is currently hosted on: <eldarica.org/eins>
 
